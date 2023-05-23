@@ -100,10 +100,11 @@
       }
     ]
 
-    function CourseItem({ course }) {
+    function CourseItem({ course, onClick }) {
       return (
+        // nên truyền course tại onClick tại đây
         <div>
-          <h2>{course.title}</h2>
+          <h2 onClick={() => onClick(course)}>{course.title}</h2>
           <img src={course.image_url} />
           <p>{course.description}</p>
           <p>{course.students_count}</p>
@@ -113,9 +114,16 @@
 
     // React component
     function App() {
+      
+      //useCallback
+      const handleClick = (course) => {
+        console.log(course.title);
+      }
+
       return (
+        // không được lấy course bên trong onClick ={()=>handleClick(course)} tại vì performance không tốt
         <div id='wrapper'>
-          {courses.map(course => <CourseItem key ={course.key} course = {course} />)}
+          {courses.map(course => <CourseItem key={course.key} course={course} onClick={handleClick} />)}
         </div>
       );
     }
